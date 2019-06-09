@@ -5,30 +5,70 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
+import ButtonDialog from './ButtonDialog';
+import Filter from './Filter';
 
-const tileData = [
+const dataPokedex = [
   {
-    img: 'https://i.imagesup.co/images2/0__05c7e898ac694e.jpg',
-    title: 'Pokémon1',
-    author: 'author',
+    img: 'https://i.pinimg.com/564x/6b/e2/46/6be246121be8548270ca52a4dd8d5549.jpg',
+    name: 'Togepi',
+    type: {
+      type1:'Hada',
+      type2: ''
+    },
+    height:'0.3 m',
+    weight:'1.5 kg',
+    gender:'male',
+    catchRate: 190
   },
   {
-    img: 'https://i.imagesup.co/images2/0__05c7e8a33418ff.jpg',
-    title: 'Pokémon2',
-    author: 'author',
+    img: 'https://i.pinimg.com/564x/76/47/9d/76479dd91dc55c2768ddccfc30a4fbf5.jpg',
+    name: 'Pikachu',
+    type: {
+      type1:'Eléctrico',
+      type2: ''
+    },
+    height:'0.4 m',
+    weight:'6.0 kg',
+    gender:'male',
+    catchRate: 190
   },
   {
-    img: 'https://cdn.pixabay.com/photo/2017/05/13/12/40/fashion-2309519__480.jpg',
-    title: 'Pokémon3',
-    author: 'author',
+    img: 'https://i.pinimg.com/564x/f4/89/dd/f489dd69985595edd68947d4415241e1.jpg',
+    name: 'Charmander',
+    type: {
+      type1:'Fuego',
+      type2: ''
+    },
+    height:'0.6 m',
+    weight:'8.5 kg',
+    gender:'male',
+    catchRate: 45
   },
   {
-    img: 'https://www.mariposas.wiki/Imagenes/fotos-de-la-mariposa-morpho-azul.jpg',
-    title: 'Pokémon4',
-    author: 'author',
+    img: 'https://i.pinimg.com/564x/7b/9d/df/7b9ddf692c6df64d86bbe4e96ef46a83.jpg',
+    name: 'Squirtle',
+    type: {
+      type1:'Agua',
+      type2: ''
+    },
+    height:'0.5 m',
+    weight:'9.0 kg',
+    gender:'male',
+    catchRate: 45
   },
+  {
+    img: 'https://i.pinimg.com/564x/34/9e/2a/349e2a4d065dcc55a417ac6f0528a5cf.jpg',
+    name: 'Bulbasaur',
+    type: {
+      type1:'Planta',
+      type2: ' Veneno'
+    },
+    height:'0.7 m',
+    weight:'6.9 kg',
+    gender:'male',
+    catchRate: 45
+  }
 ];
 
 const styles = theme => ({
@@ -41,39 +81,58 @@ const styles = theme => ({
   },
   gridList: {
     width: 500,
-    height: 450,
+    height: '80%'
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
   },
 });
 
-function TitlebarGridList(props) {
-  const { classes } = props;
+class TitlebarGridList extends React.Component {
+  state = {
+    filter: "",
+  };
 
-  return (
-    <div className={classes.root}>
-      <GridList cellHeight={180} className={classes.gridList}>
-        <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-          <ListSubheader component="div">Pokédex</ListSubheader>
-        </GridListTile>
-        {tileData.map(tile => (
-          <GridListTile key={tile.img}>
-            <img src={tile.img} alt={tile.title} />
-            <GridListTileBar
-              title={tile.title}
-              subtitle={<span>by: {tile.author}</span>}
-              actionIcon={
-                <IconButton className={classes.icon}>
-                  <InfoIcon />
-                </IconButton>
-              }
-            />
+  handleChangeFilter = newFilter => {
+    this.setState({ filter: newFilter });
+  }
+
+  render() {
+    const { classes } = this.props;
+    const { filter, rowsPerPage, page } = this.state;
+    const lowercasedQuery = filter.toString().toLowerCase();
+    const filteredData = dataPokedex.filter(item => {
+      return Object.keys(item).some(key =>
+        item[key].toString().toLowerCase().includes(lowercasedQuery)
+      );
+    });
+    return (
+      <div>
+        <Filter onSearchCalled={this.handleChangeFilter}/>
+      <div className={classes.root}>
+        <GridList cellHeight={180} className={classes.gridList}>
+          <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
+            <ListSubheader component="div">Pokédex</ListSubheader>
           </GridListTile>
-        ))}
-      </GridList>
-    </div>
-  );
+          {filteredData.map(data => (
+            <GridListTile key={data.img}>
+              <img src={data.img} alt={data.name} />
+              <GridListTileBar
+                title={data.name}
+                subtitle={
+                  <span>Type: {data.type.type1}{data.type.type2}</span>
+                }
+                actionIcon={
+                  <ButtonDialog dataPokedex={data}/>
+                }
+              />
+            </GridListTile>
+          ))}
+        </GridList>
+      </div>
+      </div>
+    );
+  }
 }
 
 TitlebarGridList.propTypes = {

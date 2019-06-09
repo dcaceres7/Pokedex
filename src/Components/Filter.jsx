@@ -5,18 +5,6 @@ import TextField from "@material-ui/core/TextField";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import Grid from '@material-ui/core/Grid';
 
-/*
-en el componente padre seria:
-    state = {
-    filter: "",
-  };
-  handleChangeFilter = newFilter => {
-    this.setState({ filter: newFilter });
-  }
- onSearchCalled={this.handleChangeFilter}
- y descomentar el onchange
- */
-
 
 function SearchIcon(props) {
   return (
@@ -62,7 +50,7 @@ class Filter extends React.Component {
               hintText="Filter"
               floatingLabelText="Filter"
               value={this.state.filter}
-              //onChange={this.handleChangeSearch}
+              onChange={this.handleChangeSearch}
               floatingLabelFixed
             />
           </Grid>

@@ -7,8 +7,9 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import PokedexForm from './PokedexForm';
 import TitlebarGridList from './TitlebarGridList';
-import Filter from './Filter';
-import RecipeReviewCard from './RecipeReviewCard';
+import Button from '@material-ui/core/Button';
+import Auth0 from '../Auth0';
+const auth = new Auth0();
 
 function TabContainer(props) {
   return (
@@ -38,23 +39,27 @@ class TabsComponent extends React.Component {
     this.setState({ value });
   };
 
+  logout = () => {
+    auth.logout();
+  };
+
   render() {
     const { classes } = this.props;
     const { value } = this.state;
     const { conteiner } = this.props;
-
     return (
       <div className={classes.root}>
         <AppBar position="static">
           <Tabs value={value} onChange={this.handleChange}>
-            <Tab label="Crear Pokédex" />
             <Tab label="Lista de Pokédex" />
-            <Tab label="Review" />
+            <Tab label="Crear Pokédex" />
+            <Button variant="contained" color="primary" onClick = { this.logout }>
+              Logout
+            </Button>
           </Tabs>
         </AppBar>
-        {value === 0 && <TabContainer><PokedexForm /></TabContainer>}
-        {value === 1 && <TabContainer><Filter /><TitlebarGridList /> </TabContainer>}
-        {value === 2 && <TabContainer><RecipeReviewCard /></TabContainer>}
+        {value === 0 && <TabContainer><TitlebarGridList /></TabContainer>}
+        {value === 1 && <TabContainer><PokedexForm /></TabContainer>}
       </div>
     );
   }
