@@ -4,6 +4,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import PropTypes from 'prop-types';
 
 class AlertDialog extends React.Component {
   state = {
@@ -21,6 +22,19 @@ class AlertDialog extends React.Component {
   doCreate = event => {
     //push pokemon
     this.handleClose();
+    let pokeData = {
+      name: this.props.pokeName, 
+      img: this.props.pokeImg,
+      height: this.props.pokeHeight,
+      weight: this.props.pokeWeight,
+      type: {
+        type1: this.props.type1,
+        type2: this.props.type2
+      },
+      gender: this.props.gender,
+      catchRate: this.props.catchRate
+    }
+    this.props.onDone(pokeData);
   };
 
   render() {
@@ -40,14 +54,17 @@ class AlertDialog extends React.Component {
           >
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                Render info ingresada del pokedex
+                Name: {this.props.pokeName}, 
+                Img: {this.props.pokeImg}, 
+                Height: {this.props.pokeHeight}, 
+                Weight: {this.props.pokeWeight}, 
             </DialogContentText>
             </DialogContent>
             <DialogActions>
               <Button onClick={this.handleClose} color="secondary">
                 Cancelar
               </Button>
-              <Button type="submit" color="primary">
+              <Button type="submit" color="primary" >
                 Crear
                 </Button>
             </DialogActions>
@@ -57,5 +74,13 @@ class AlertDialog extends React.Component {
     );
   }
 }
+
+AlertDialog.propTypes = {
+  pokeName: PropTypes.string.isRequired,
+  pokeImg: PropTypes.string.isRequired,
+  pokeHeight: PropTypes.string.isRequired,
+  pokeWeight: PropTypes.string.isRequired,
+  onDone: PropTypes.func.isRequired
+};
 
 export default AlertDialog;
