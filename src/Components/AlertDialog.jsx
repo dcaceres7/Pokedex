@@ -5,6 +5,13 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+  paper: {
+      minWidth: "385px"
+  },
+});
 
 class AlertDialog extends React.Component {
   state = {
@@ -23,7 +30,7 @@ class AlertDialog extends React.Component {
     //push pokemon
     this.handleClose();
     let pokeData = {
-      name: this.props.pokeName, 
+      name: this.props.pokeName,
       img: this.props.pokeImg,
       height: this.props.pokeHeight,
       weight: this.props.pokeWeight,
@@ -38,6 +45,7 @@ class AlertDialog extends React.Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
         <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
@@ -48,17 +56,27 @@ class AlertDialog extends React.Component {
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
+          classes={{ paper: classes.paper }}
         >
           <form
             onSubmit={this.doCreate}
           >
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                Name: {this.props.pokeName}, 
-                Img: {this.props.pokeImg}, 
-                Height: {this.props.pokeHeight}, 
-                Weight: {this.props.pokeWeight}, 
-            </DialogContentText>
+                Name: {this.props.pokeName},
+                <br />
+                Height: {this.props.pokeHeight},
+                <br />
+                Weight: {this.props.pokeWeight},
+                <br />
+                type1: {this.props.type1},
+                <br />
+                type2: {this.props.type2},
+                <br />
+                gender: {this.props.gender},
+                <br />
+                catchRate: {this.props.catchRate}
+              </DialogContentText>
             </DialogContent>
             <DialogActions>
               <Button onClick={this.handleClose} color="secondary">
@@ -83,4 +101,4 @@ AlertDialog.propTypes = {
   onDone: PropTypes.func.isRequired
 };
 
-export default AlertDialog;
+export default withStyles(styles)(AlertDialog);

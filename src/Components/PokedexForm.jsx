@@ -73,6 +73,8 @@ class PokedexForm extends React.Component {
                             margin="normal"
                         />
                     </Grid>
+                </Grid>
+                <Grid container spacing={8} alignItems="flex-end">
                     <Grid item>
                         <TextField
                             id="pokemonType1"
@@ -93,6 +95,8 @@ class PokedexForm extends React.Component {
                             margin="normal"
                         />
                     </Grid>
+                    </Grid>
+                    <Grid container spacing={8} alignItems="flex-end">
                     <Grid item>
                         <TextField
                             id="pokemonGender"
@@ -113,7 +117,7 @@ class PokedexForm extends React.Component {
                             margin="normal"
                         />
                     </Grid>
-                </Grid>
+                    </Grid>
                 <AlertDialog onDone={(pokeData) => {
                     this.setState({ name: '', img: '', height: '', weight: '', gender: '', catchRate: '', type1: '', type2: '' });
                     this.props.onCreateDone(pokeData);
